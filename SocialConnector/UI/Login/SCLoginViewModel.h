@@ -7,8 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "SCRouter.h"
 
 @interface SCLoginViewModel : NSObject
+
+@property (strong, nonatomic) UIViewController *vkLoginVC;
+@property (weak, nonatomic) UIViewController *viewController;
+
+- (instancetype)initWithRouter:(SCRouter *)router;
 
 - (void)facebookLogin;
 - (void)vkLogin;
