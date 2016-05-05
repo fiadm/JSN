@@ -9,4 +9,5 @@ target 'SocialConnector' do
     pod "VK-ios-sdk"
     pod 'Fabric', '~> 1.6.7'
     pod 'TwitterKit', '~> 2.0.2'
+    pod 'Haneke', '~> 1.0'
 end

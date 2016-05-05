@@ -12,6 +12,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.11.0):
     - FBSDKCoreKit
+  - Haneke (1.0.2)
   - Masonry (0.6.4)
   - ReactiveCocoa (2.5):
     - ReactiveCocoa/UI (= 2.5)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - Haneke (~> 1.0)
   - Masonry (~> 0.6.4)
   - ReactiveCocoa (~> 2.5)
   - TwitterKit (~> 2.0.2)
@@ -42,6 +44,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 686ac982723a14ec9ddb85e2f81235d7706c891b
   FBSDKLoginKit: bade9fc78277764149ccc5bfaadbf13c83175c6a
   FBSDKShareKit: 2d1746144cfc8a9dbbd24997c34ee0471be51b6a
+  Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0

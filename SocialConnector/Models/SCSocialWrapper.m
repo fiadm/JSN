@@ -35,7 +35,7 @@
 
 #pragma mark - VK Stuff
 
-- (void)fetchVkFriends:(SCSocialWrapperVkFriendsCallback)callback {
+- (void)fetchVkFriends:(SCSocialWrapperFriendsCallback)callback {
     NSLog(@"Fetch vk friends");
     VKRequest *req = [[VKApi friends] get:@{@"fields": @[@"photo_100"], @"order": @"name", @"name_case": @"ins"}];
     req.completeBlock = ^(VKResponse *resp) {
@@ -79,7 +79,7 @@
 
 - (void)facebookLogin {
     [_fbLogin
-     logInWithReadPermissions: @[@"public_profile"]
+     logInWithReadPermissions:@[@"public_profile", @"user_friends"]
      fromViewController:_delegate
      handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
          if (error) {
@@ -95,7 +95,22 @@
      }];
 }
 
-
+- (void)fetchFacebookFriends:(SCSocialWrapperFriendsCallback)callback {
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                  initWithGraphPath:@"me/invitable_friends"
+                                  parameters:@{@"fields": @"id, name, picture", @"limit": @(99999)}
+                                  HTTPMethod:@"GET"];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        if (error) {
+            callback(nil, error);
+        } else {
+            NSArray *users = result[@"data"];
+            if (users) {
+                callback(users, nil);
+            }
+        }
+    }];
+}
 #pragma mark - Twitter Stuff
 
 - (void)twitterLogin {

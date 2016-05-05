@@ -29,6 +29,7 @@
         case SCListModeVk:
             [self fetchVkFriends];
         case SCListModeFacebook:
+            [self fetchFacebookFriends];
             break;
     }
 }
@@ -40,17 +41,26 @@
         @strongify(self);
         if (error == nil) {
             self.vkFriends = users;
-            self.isReady = YES;
         } else {
             self.lastError = error;
-            self.isReady = YES;
         }
+        self.isReady = YES;
     }];
 }
 
 
 - (void)fetchFacebookFriends {
-    NSLog(@"Fetch facebook friends");
+    self.isReady = NO;
+    @weakify(self);
+    [_wrapper fetchFacebookFriends:^(NSArray *users, NSError *error) {
+        @strongify(self);
+        if (users) {
+            self.facebookFriends = users;
+        } else {
+            self.lastError = error;
+        }
+        self.isReady = YES;
+    }];
 }
 
 @end

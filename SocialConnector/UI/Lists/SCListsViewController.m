@@ -9,6 +9,7 @@
 #import "SCListsViewController.h"
 #import "Masonry.h"
 #import "ReactiveCocoa.h"
+#import "Haneke.h"
 
 @interface SCListsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -86,7 +87,7 @@
     if (_viewModel.mode == SCListModeVk) {
         return _viewModel.vkFriends.count;
     } else {
-        return 0;
+        return _viewModel.facebookFriends.count;
     }
 }
 
@@ -100,13 +101,29 @@
         case SCListModeVk: {
             VKUser *user = _viewModel.vkFriends[indexPath.row];
             cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", user.first_name, user.last_name];
+            cell.imageView.image = [UIImage imageNamed:@"userpic-placeholder"];
+            [cell.imageView sizeToFit];
+            [cell.imageView hnk_setImageFromURL:[NSURL URLWithString:user.photo_100]];
             break;
         }
-        case SCListModeFacebook:
-        default: break;
+        case SCListModeFacebook: {
+            NSDictionary *user = _viewModel.facebookFriends[indexPath.row];
+            cell.textLabel.text = user[@"name"];
+            cell.imageView.image = [UIImage imageNamed:@"userpic-placeholder"];
+            [cell.imageView sizeToFit];
+            [cell.imageView hnk_setImageFromURL:[NSURL URLWithString:user[@"picture"][@"data"][@"url"]]];
+            break;
+        }
+        default:
+            break;
     }
 
     return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
