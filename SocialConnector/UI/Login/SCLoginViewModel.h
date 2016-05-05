@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "SCSocialWrapper.h"
 #import "SCRouter.h"
 
 @interface SCLoginViewModel : NSObject
@@ -15,10 +16,12 @@
 @property (strong, nonatomic) UIViewController *vkLoginVC;
 @property (weak, nonatomic) UIViewController *viewController;
 
-- (instancetype)initWithRouter:(SCRouter *)router;
+- (instancetype)initWithRouter:(id)router;
 
-- (void)facebookLogin;
-- (void)vkLogin;
-- (void)twitterLogin;
+- (void)facebookLogin:(SCSocialWrapper *)wrapper;
+- (void)vkLogin:(SCSocialWrapper *)wrapper;
+- (void)twitterLogin:(SCSocialWrapper *)wrapper;
+
+- (void)loginFinished:(SCSocialAuthResult *)result;
 
 @end

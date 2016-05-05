@@ -7,8 +7,12 @@
 //
 
 #import "SCRouter.h"
+
 #import "SCLoginViewModel.h"
 #import "SCLoginViewController.h"
+
+#import "SCListsViewModel.h"
+#import "SCListsViewController.h"
 
 @implementation SCRouter {
     UINavigationController *_navigation;
@@ -30,6 +34,9 @@
 
 - (void)proceedToLists {
     NSLog(@"Proceed to lists");
+    SCListsViewModel *vm = [[SCListsViewModel alloc] initWithRouter:self];
+    SCListsViewController *ctrl = [[SCListsViewController alloc] initWithViewModel:vm];
+    [_navigation pushViewController:ctrl animated:YES];
 }
 
 @end

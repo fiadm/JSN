@@ -7,10 +7,12 @@
 //
 
 #import "SCLoginViewController.h"
+#import "SCSocialWrapper.h"
 #import "ReactiveCocoa.h"
 #import "Masonry.h"
+#import "VKSdk.h"
 
-@interface SCLoginViewController ()
+@interface SCLoginViewController () <SCSocialWrapperDelegate, VKSdkUIDelegate>
 
 @end
 
@@ -19,6 +21,8 @@
     UIButton *_vkLogin;
     UIButton *_fbLogin;
     UIButton *_twLogin;
+
+    SCSocialWrapper *_social;
 }
 
 - (instancetype)initWithViewModel:(SCLoginViewModel *)viewModel {
@@ -28,6 +32,7 @@
         _vkLogin = [UIButton new];
         _fbLogin = [UIButton new];
         _twLogin = [UIButton new];
+        _social = [[SCSocialWrapper alloc] initWithDelegate:self];
     }
     return self;
 }
@@ -50,23 +55,17 @@
 
     [[[_vkLogin rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        [_viewModel vkLogin];
+        [_viewModel vkLogin:_social];
     }];
 
     [[[_fbLogin rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        [_viewModel facebookLogin];
+        [_viewModel facebookLogin:_social];
     }];
 
     [[[_twLogin rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        [_viewModel twitterLogin];
-    }];
-
-    [[RACObserve(_viewModel, vkLoginVC) takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        if (x != nil) {
-            [self presentViewController:x animated:YES completion:nil];
-        }
+        [_viewModel twitterLogin:_social];
     }];
 
     [self layout];
@@ -88,5 +87,32 @@
         make.centerX.equalTo(self.view);
     }];
 }
+
+#pragma mark - Wrapper Stuff
+
+- (void)socialWrapperLoginCompletedWithSocialResult:(SCSocialAuthResult *)result {
+    if (result.result == SCSocialAuthResultSuccess) {
+        [_viewModel loginFinished:result];
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Auth failed"
+                                                                       message:@"Authorization failed"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+#pragma mark - VK Stuff
+
+- (void)vkSdkShouldPresentViewController:(UIViewController *)controller {
+     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)vkSdkNeedCaptchaEnter:(VKError *)captchaError {
+
+}
+
 
 @end

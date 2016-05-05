@@ -14,6 +14,10 @@
 		4FC4ABEF1CD9C38700DF71BD /* SCLoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC4ABEE1CD9C38700DF71BD /* SCLoginViewModel.m */; };
 		4FCDDE711CDA5E1800029517 /* SCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDDE701CDA5E1800029517 /* SCLoginViewController.m */; };
 		4FCDDE741CDA6B1D00029517 /* SCRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCDDE731CDA6B1D00029517 /* SCRouter.m */; };
+		4FDFBA381CDB0AB900AE8F64 /* SCSocialWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDFBA371CDB0AB900AE8F64 /* SCSocialWrapper.m */; };
+		4FDFBA3B1CDB0BB500AE8F64 /* SCSocialAuthResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDFBA3A1CDB0BB500AE8F64 /* SCSocialAuthResult.m */; };
+		4FE1D2461CDB19C10084365E /* SCListsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1D2451CDB19C10084365E /* SCListsViewModel.m */; };
+		4FE1D2491CDB19F70084365E /* SCListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1D2481CDB19F70084365E /* SCListsViewController.m */; };
 		FECE51E4C4086D5A3A161E00 /* libPods-SocialConnector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A23E875673B92156040D7940 /* libPods-SocialConnector.a */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +35,14 @@
 		4FCDDE701CDA5E1800029517 /* SCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLoginViewController.m; sourceTree = "<group>"; };
 		4FCDDE721CDA6B1D00029517 /* SCRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRouter.h; sourceTree = "<group>"; };
 		4FCDDE731CDA6B1D00029517 /* SCRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCRouter.m; sourceTree = "<group>"; };
+		4FDFBA361CDB0AB900AE8F64 /* SCSocialWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSocialWrapper.h; sourceTree = "<group>"; };
+		4FDFBA371CDB0AB900AE8F64 /* SCSocialWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSocialWrapper.m; sourceTree = "<group>"; };
+		4FDFBA391CDB0BB500AE8F64 /* SCSocialAuthResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSocialAuthResult.h; sourceTree = "<group>"; };
+		4FDFBA3A1CDB0BB500AE8F64 /* SCSocialAuthResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSocialAuthResult.m; sourceTree = "<group>"; };
+		4FE1D2441CDB19C10084365E /* SCListsViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCListsViewModel.h; sourceTree = "<group>"; };
+		4FE1D2451CDB19C10084365E /* SCListsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCListsViewModel.m; sourceTree = "<group>"; };
+		4FE1D2471CDB19F70084365E /* SCListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCListsViewController.h; sourceTree = "<group>"; };
+		4FE1D2481CDB19F70084365E /* SCListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCListsViewController.m; sourceTree = "<group>"; };
 		A23E875673B92156040D7940 /* libPods-SocialConnector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocialConnector.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D01AB4228260D582350B54 /* Pods-SocialConnector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialConnector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector.debug.xcconfig"; sourceTree = "<group>"; };
 		B864BE58751A78447EFBCC60 /* Pods-SocialConnector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialConnector.release.xcconfig"; path = "Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +104,7 @@
 		4FC4ABEA1CD9C37900DF71BD /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4FE1D2431CDB19B00084365E /* Lists */,
 				4FC4ABEB1CD9C37900DF71BD /* Login */,
 				4FCDDE721CDA6B1D00029517 /* SCRouter.h */,
 				4FCDDE731CDA6B1D00029517 /* SCRouter.m */,
@@ -113,8 +126,23 @@
 		4FC4ABEC1CD9C37900DF71BD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4FDFBA361CDB0AB900AE8F64 /* SCSocialWrapper.h */,
+				4FDFBA371CDB0AB900AE8F64 /* SCSocialWrapper.m */,
+				4FDFBA391CDB0BB500AE8F64 /* SCSocialAuthResult.h */,
+				4FDFBA3A1CDB0BB500AE8F64 /* SCSocialAuthResult.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4FE1D2431CDB19B00084365E /* Lists */ = {
+			isa = PBXGroup;
+			children = (
+				4FE1D2441CDB19C10084365E /* SCListsViewModel.h */,
+				4FE1D2451CDB19C10084365E /* SCListsViewModel.m */,
+				4FE1D2471CDB19F70084365E /* SCListsViewController.h */,
+				4FE1D2481CDB19F70084365E /* SCListsViewController.m */,
+			);
+			path = Lists;
 			sourceTree = "<group>";
 		};
 		9C0E1F1CC8B426BB001AFA30 /* Pods */ = {
@@ -256,9 +284,13 @@
 			files = (
 				4FCDDE741CDA6B1D00029517 /* SCRouter.m in Sources */,
 				4FCDDE711CDA5E1800029517 /* SCLoginViewController.m in Sources */,
+				4FDFBA381CDB0AB900AE8F64 /* SCSocialWrapper.m in Sources */,
 				4FC4ABEF1CD9C38700DF71BD /* SCLoginViewModel.m in Sources */,
+				4FDFBA3B1CDB0BB500AE8F64 /* SCSocialAuthResult.m in Sources */,
 				4FB121B51CD9BA1000FA7C15 /* AppDelegate.m in Sources */,
+				4FE1D2461CDB19C10084365E /* SCListsViewModel.m in Sources */,
 				4FB121B21CD9BA1000FA7C15 /* main.m in Sources */,
+				4FE1D2491CDB19F70084365E /* SCListsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
