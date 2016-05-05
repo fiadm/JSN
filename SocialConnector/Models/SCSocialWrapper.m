@@ -14,6 +14,9 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <Fabric/Fabric.h>
 #import <TwitterKit/TwitterKit.h>
+#import "FBSDKAccessToken.h"
+
+#define VK_SCOPE @[VK_PER_WALL, VK_PER_FRIENDS, VK_PER_MESSAGES]
 
 @implementation SCSocialWrapper {
     UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *_delegate;
@@ -36,7 +39,17 @@
 #pragma mark - VK Stuff
 
 - (void)fetchVkFriends:(SCSocialWrapperFriendsCallback)callback {
-    NSLog(@"Fetch vk friends");
+    [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
+        if (state == VKAuthorizationAuthorized) {
+            [self _fetchVkFriends:callback];
+        } else if (error) {
+            [self vkLogin];
+            callback(nil, nil);
+        }
+    }];
+}
+
+- (void)_fetchVkFriends:(SCSocialWrapperFriendsCallback)callback {
     VKRequest *req = [[VKApi friends] get:@{@"fields": @[@"photo_100"], @"order": @"name", @"name_case": @"ins"}];
     req.completeBlock = ^(VKResponse *resp) {
         if (callback) {
@@ -55,7 +68,7 @@
 - (void)vkLogin {
     [_vk registerDelegate:self];
     [_vk setUiDelegate:_delegate];
-    [VKSdk authorize:@[VK_PER_WALL, VK_PER_FRIENDS, VK_PER_MESSAGES]];
+    [VKSdk authorize:VK_SCOPE];
 }
 
 
@@ -78,6 +91,10 @@
 #pragma mark - Facebook Stuff
 
 - (void)facebookLogin {
+    if ([FBSDKAccessToken currentAccessToken] == nil) {
+        [self facebookLogin];
+        return;
+    }
     [_fbLogin
      logInWithReadPermissions:@[@"public_profile", @"user_friends"]
      fromViewController:_delegate
