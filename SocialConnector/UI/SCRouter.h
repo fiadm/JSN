@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "SCSocialWrapper.h"
 
 @interface SCRouter : NSObject
 
 - (instancetype)initWithNavigation:(UINavigationController *)navigation;
 
 - (void)showAuth;
-- (void)proceedToLists;
+- (void)proceedToListsWithWrapper:(SCSocialWrapper *)wrapper;
 
 @end

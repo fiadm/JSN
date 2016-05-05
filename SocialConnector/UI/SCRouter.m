@@ -16,6 +16,7 @@
 
 @implementation SCRouter {
     UINavigationController *_navigation;
+    SCSocialWrapper *_wrapper;
 }
 
 - (instancetype)initWithNavigation:(UINavigationController *)navigation {
@@ -32,9 +33,9 @@
     [_navigation pushViewController:loginCtrl animated:NO];
 }
 
-- (void)proceedToLists {
+- (void)proceedToListsWithWrapper:(id)wrapper {
     NSLog(@"Proceed to lists");
-    SCListsViewModel *vm = [[SCListsViewModel alloc] initWithRouter:self];
+    SCListsViewModel *vm = [[SCListsViewModel alloc] initWithRouter:self socialWrapper:wrapper];
     SCListsViewController *ctrl = [[SCListsViewController alloc] initWithViewModel:vm];
     [_navigation pushViewController:ctrl animated:YES];
 }

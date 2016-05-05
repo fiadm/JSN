@@ -22,6 +22,6 @@
 - (void)vkLogin:(SCSocialWrapper *)wrapper;
 - (void)twitterLogin:(SCSocialWrapper *)wrapper;
 
-- (void)loginFinished:(SCSocialAuthResult *)result;
+- (void)loginFinished:(SCSocialAuthResult *)result wrapper:(SCSocialWrapper *)wrapper;
 
 @end

@@ -40,9 +40,9 @@
 }
 
 
-- (void)loginFinished:(SCSocialAuthResult *)result {
+- (void)loginFinished:(SCSocialAuthResult *)result wrapper:(SCSocialWrapper *)wrapper {
     if (result.result == SCSocialAuthResultSuccess) {
-        [_router proceedToLists];
+        [_router proceedToListsWithWrapper:wrapper];
     }
 }
 

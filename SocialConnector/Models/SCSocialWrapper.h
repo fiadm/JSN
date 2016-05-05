@@ -17,11 +17,15 @@
 
 @end
 
+typedef void(^SCSocialWrapperVkFriendsCallback)(NSArray *users, NSError *error);
+
 @interface SCSocialWrapper : NSObject <VKSdkDelegate>
 
 - (instancetype)initWithDelegate:(UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *)delegate;
 
 - (void)vkLogin;
+- (void)fetchVkFriends:(SCSocialWrapperVkFriendsCallback)callback;
+
 - (void)facebookLogin;
 - (void)twitterLogin;
 

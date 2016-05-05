@@ -92,7 +92,8 @@
 
 - (void)socialWrapperLoginCompletedWithSocialResult:(SCSocialAuthResult *)result {
     if (result.result == SCSocialAuthResultSuccess) {
-        [_viewModel loginFinished:result];
+
+        [_viewModel loginFinished:result wrapper:_social];
     } else {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Auth failed"
                                                                        message:@"Authorization failed"
