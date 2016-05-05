@@ -5,7 +5,7 @@
 
 ```
 $ git clone <this-repo>
-$ cd SocialConnector
+$ cd JSN 
 $ pod install
 $ open SocialConnector.xcworkspace
 ``` 
