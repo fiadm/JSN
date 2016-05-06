@@ -15,6 +15,7 @@
 #import <Fabric/Fabric.h>
 #import <TwitterKit/TwitterKit.h>
 #import "FBSDKAccessToken.h"
+#import "VKUser.h"
 
 #define VK_SCOPE @[VK_PER_WALL, VK_PER_FRIENDS, VK_PER_MESSAGES]
 
@@ -63,6 +64,25 @@
         }
     };
     [req start];
+}
+
+- (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
+    VKRequest *sendMessage = [VKApi requestWithMethod:@"messages.send"
+                                        andParameters:@{@"user_id": user.id, @"message": message}];
+
+    sendMessage.completeBlock = ^(VKResponse *resp) {
+        if (callback) {
+            callback(resp.parsedModel, nil);
+        }
+    };
+
+    sendMessage.errorBlock = ^(NSError *err) {
+        if (callback) {
+            callback(nil, err);
+        }
+    };
+
+    [sendMessage start];
 }
 
 - (void)vkLogin {

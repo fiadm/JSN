@@ -49,6 +49,12 @@
 }
 
 
+- (void)test_sendVkMessage:(VKUser *)user {
+    [_wrapper vk_sendMessage:@"test" user:user callback:^(id response, NSError *error) {
+        NSLog(@"Finished send: %@, %@", response, error);
+    }];
+}
+
 - (void)fetchFacebookFriends {
     self.isReady = NO;
     @weakify(self);
@@ -62,5 +68,6 @@
         self.isReady = YES;
     }];
 }
+
 
 @end

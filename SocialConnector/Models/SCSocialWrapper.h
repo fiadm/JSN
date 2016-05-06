@@ -17,6 +17,7 @@
 
 @end
 
+typedef void(^SCSocialWrapperCallback)(id response, NSError *error);
 typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
 @interface SCSocialWrapper : NSObject <VKSdkDelegate>
@@ -25,6 +26,7 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
 - (void)vkLogin;
 - (void)fetchVkFriends:(SCSocialWrapperFriendsCallback)callback;
+- (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback;
 
 - (void)facebookLogin;
 - (void)fetchFacebookFriends:(SCSocialWrapperFriendsCallback)callback;

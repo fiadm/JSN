@@ -124,6 +124,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (_viewModel.mode == SCListModeVk) {
+        VKUser *user = _viewModel.vkFriends[indexPath.row];
+        [_viewModel test_sendVkMessage:user];
+    }
 }
 
 @end
