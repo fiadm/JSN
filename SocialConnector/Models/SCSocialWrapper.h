@@ -20,21 +20,35 @@
 typedef void(^SCSocialWrapperCallback)(id response, NSError *error);
 typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
+/**
+ Обёрточный класс для удобной работы с социальными сетями.
+ 
+ Методы работы с разными соцсетями разделены префиксами:
+ - `vk_` — vk.com
+ - `fb_` — Facebook
+ - `tw_` — Twitter
+ */
 @interface SCSocialWrapper : NSObject <VKSdkDelegate>
 
+/**
+ К сожалению, для авторизации через VKSdk очень нужен UIViewController,
+ который отвечает протоколу VKSdkUIDelegate. Именно с этого контроллера будет стартовать
+ отображение формы логина в Web View. Поэтому пришлось засунуть кусок UIKit в этот класс 
+ таким вот образом.
+ */
 - (instancetype)initWithDelegate:(UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *)delegate;
 
-- (void)vkLogin;
-- (void)fetchVkFriends:(SCSocialWrapperFriendsCallback)callback;
-- (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback;
-
-- (void)facebookLogin;
-- (void)fetchFacebookFriends:(SCSocialWrapperFriendsCallback)callback;
+- (void)vk_login;
+- (void)vk_fetchFriends:(SCSocialWrapperFriendsCallback)callback;
+- (void)vk_sendMessage:(NSString *)message
+                  user:(VKUser *)user
+              callback:(SCSocialWrapperCallback)callback;
+- (void)fb_login;
+- (void)fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback;
 - (void)fb_sendMessage:(NSString *)message
                   user:(NSString *)userId
                 showIn:(UIViewController *)controller
               callback:(SCSocialWrapperCallback)callback;
-
-- (void)twitterLogin;
+- (void)tw_login;
 
 @end

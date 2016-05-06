@@ -26,17 +26,17 @@
 
 
 - (void)vkLogin:(SCSocialWrapper *)wrapper {
-    [wrapper vkLogin];
+    [wrapper vk_login];
 }
 
 
 - (void)facebookLogin:(SCSocialWrapper *)wrapper {
-    [wrapper facebookLogin];
+    [wrapper fb_login];
 }
 
 
 - (void)twitterLogin:(SCSocialWrapper *)wrapper {
-    [wrapper twitterLogin];
+    [wrapper tw_login];
 }
 
 

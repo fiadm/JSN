@@ -44,14 +44,14 @@
 
 #pragma mark - VK Stuff
 
-- (void)fetchVkFriends:(SCSocialWrapperFriendsCallback)callback {
+- (void)vk_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
     [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
         if (state == VKAuthorizationAuthorized) {
             [self _fetchVkFriends:callback];
         } else if (error) {
             callback(nil, error);
         } else {
-            [self vkLogin];
+            [self vk_login];
         }
     }];
 }
@@ -89,7 +89,7 @@
     [sendMessage start];
 }
 
-- (void)vkLogin {
+- (void)vk_login {
     [_vk registerDelegate:self];
     [_vk setUiDelegate:_delegate];
     [VKSdk authorize:VK_SCOPE];
@@ -109,12 +109,13 @@
 
 - (void)vkSdkUserAuthorizationFailed {
     [_delegate socialWrapperLoginCompletedWithSocialResult:
-     [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeVK result:SCSocialAuthResultFailure]];
+     [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeVK
+                                       result:SCSocialAuthResultFailure]];
 }
 
 #pragma mark - Facebook Stuff
 
-- (void)facebookLogin {
+- (void)fb_login {
     [_fbLogin
      logInWithReadPermissions:@[@"public_profile", @"user_friends"]
      fromViewController:_delegate
@@ -132,7 +133,7 @@
      }];
 }
 
-- (void)fetchFacebookFriends:(SCSocialWrapperFriendsCallback)callback {
+- (void)fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
                                   initWithGraphPath:@"me/invitable_friends"
                                   parameters:@{@"fields": @"id, name, picture, username", @"limit": @(99999)}
@@ -179,7 +180,7 @@
 
 #pragma mark - Twitter Stuff
 
-- (void)twitterLogin {
+- (void)tw_login {
     [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
         if (session) {
             [_delegate socialWrapperLoginCompletedWithSocialResult:

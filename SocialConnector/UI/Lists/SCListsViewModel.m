@@ -37,7 +37,7 @@
 - (void)fetchVkFriends {
     self.isReady = NO;
     @weakify(self);
-    [_wrapper fetchVkFriends:^(NSArray *users, NSError *error) {
+    [_wrapper vk_fetchFriends:^(NSArray *users, NSError *error) {
         @strongify(self);
         if (error == nil) {
             self.vkFriends = users;
@@ -58,7 +58,7 @@
 - (void)fetchFacebookFriends {
     self.isReady = NO;
     @weakify(self);
-    [_wrapper fetchFacebookFriends:^(NSArray *users, NSError *error) {
+    [_wrapper fb_fetchFriends:^(NSArray *users, NSError *error) {
         @strongify(self);
         if (users) {
             self.facebookFriends = users;
