@@ -138,8 +138,7 @@
                                                      handler:^(UIAlertAction * _Nonnull action) {
                                                          NSString *msg = sendMessage.textFields.firstObject.text;
                                                          if (msg) {
-                                                             [_viewModel vk_sendVkMessage:user
-                                                                                  message:msg];
+                                                             [_viewModel vk_sendVkMessage:user message:msg];
                                                          }
                                                      }];
 
@@ -148,6 +147,9 @@
                                                         style:UIAlertActionStyleCancel
                                                       handler:nil]];
          [self presentViewController:sendMessage animated:YES completion:nil];
+    } else {
+        NSDictionary *user = _viewModel.facebookFriends[indexPath.row];
+        [_viewModel fb_sendVkMessageTo:user message:@"test" showIn:self];
     }
 }
 

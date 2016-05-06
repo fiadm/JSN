@@ -12,6 +12,7 @@
 #import "VKUser.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <FBSDKShareKit/FBSDKShareKit.h>
 #import <Fabric/Fabric.h>
 #import <TwitterKit/TwitterKit.h>
 #import "FBSDKAccessToken.h"
@@ -19,10 +20,14 @@
 
 #define VK_SCOPE @[VK_PER_WALL, VK_PER_FRIENDS, VK_PER_MESSAGES]
 
+@interface SCSocialWrapper () <FBSDKSharingDelegate>
+@end
+
 @implementation SCSocialWrapper {
     UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *_delegate;
     VKSdk *_vk;
     FBSDKLoginManager *_fbLogin;
+    SCSocialWrapperCallback _facebookSendMessageCallback;
 }
 
 - (instancetype)initWithDelegate:(UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *)delegate {
@@ -44,8 +49,9 @@
         if (state == VKAuthorizationAuthorized) {
             [self _fetchVkFriends:callback];
         } else if (error) {
+            callback(nil, error);
+        } else {
             [self vkLogin];
-            callback(nil, nil);
         }
     }];
 }
@@ -109,10 +115,6 @@
 #pragma mark - Facebook Stuff
 
 - (void)facebookLogin {
-    if ([FBSDKAccessToken currentAccessToken] == nil) {
-        [self facebookLogin];
-        return;
-    }
     [_fbLogin
      logInWithReadPermissions:@[@"public_profile", @"user_friends"]
      fromViewController:_delegate
@@ -133,7 +135,7 @@
 - (void)fetchFacebookFriends:(SCSocialWrapperFriendsCallback)callback {
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
                                   initWithGraphPath:@"me/invitable_friends"
-                                  parameters:@{@"fields": @"id, name, picture", @"limit": @(99999)}
+                                  parameters:@{@"fields": @"id, name, picture, username", @"limit": @(99999)}
                                   HTTPMethod:@"GET"];
     [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
         if (error) {
@@ -146,6 +148,29 @@
         }
     }];
 }
+
+- (void)fb_sendMessage:(NSString *)message
+                  user:(NSString *)userId
+                showIn:(UIViewController *)controller
+              callback:(SCSocialWrapperCallback)callback {
+    FBSDKShareLinkContent *content = [FBSDKShareLinkContent new];
+    content.contentURL = [NSURL URLWithString:@"http://jelin.ru"];
+    _facebookSendMessageCallback = callback;
+    [FBSDKMessageDialog showWithContent:content delegate:self];
+}
+
+- (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results {
+    if (_facebookSendMessageCallback) {
+        _facebookSendMessageCallback(results, nil);
+    }
+}
+
+- (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error {
+    if (_facebookSendMessageCallback) {
+        _facebookSendMessageCallback(nil, error);
+    }
+}
+
 #pragma mark - Twitter Stuff
 
 - (void)twitterLogin {

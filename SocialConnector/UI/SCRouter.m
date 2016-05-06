@@ -36,7 +36,7 @@
 - (void)proceedToListsWithWrapper:(id)wrapper {
     NSLog(@"Proceed to lists");
     SCListsViewModel *vm = [[SCListsViewModel alloc] initWithRouter:self socialWrapper:wrapper];
-    SCListsViewController *ctrl = [[SCListsViewController alloc] initWithViewModel:vm];
+    SCListsViewController *ctrl = [[SCListsViewController alloc] initWithViewModel:vm];    
     [_navigation pushViewController:ctrl animated:YES];
 }
 

@@ -30,5 +30,6 @@ typedef NS_ENUM(NSUInteger, SCListMode) {
 - (void)vk_sendVkMessage:(VKUser *)user message:(NSString *)message;
 
 - (void)fetchFacebookFriends;
+- (void)fb_sendVkMessageTo:(NSDictionary *)user message:(NSString *)message showIn:(UIViewController *)ctrl;
 
 @end

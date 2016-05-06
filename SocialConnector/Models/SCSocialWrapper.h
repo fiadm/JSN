@@ -30,6 +30,10 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
 - (void)facebookLogin;
 - (void)fetchFacebookFriends:(SCSocialWrapperFriendsCallback)callback;
+- (void)fb_sendMessage:(NSString *)message
+                  user:(NSString *)userId
+                showIn:(UIViewController *)controller
+              callback:(SCSocialWrapperCallback)callback;
 
 - (void)twitterLogin;
 
