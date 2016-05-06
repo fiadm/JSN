@@ -154,10 +154,19 @@
                   user:(NSString *)userId
                 showIn:(UIViewController *)controller
               callback:(SCSocialWrapperCallback)callback {
-    _facebookSendMessageCallback = callback;
-    FBSDKShareLinkContent *content = [FBSDKShareLinkContent new];
-    content.contentURL = [NSURL URLWithString:@"http://jelin.ru"];
-    [FBSDKMessageDialog showWithContent:content delegate:self];
+    FBSDKMessageDialog *dialog = [[FBSDKMessageDialog alloc] init];
+    if ([dialog canShow]) {
+        _facebookSendMessageCallback = callback;
+        FBSDKShareLinkContent *content = [FBSDKShareLinkContent new];
+        content.contentURL = [NSURL URLWithString:@"http://jelin.ru"];
+        dialog.shareContent = content;
+        dialog.delegate = self;
+        [dialog show];
+    } else {
+        callback(nil, [NSError errorWithDomain:@"facebook"
+                                          code:-1
+                                      userInfo:@{@"description": @"Facebook Messenger is not installed"}]);
+    }
 }
 
 - (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results {

@@ -78,6 +78,20 @@
     }];
     RAC(_viewModel, mode) = RACObserve(_socialNetworkSelector, selectedSegmentIndex);
     [_socialNetworkSelector setSelectedSegmentIndex:0];
+    @weakify(self);
+    [[RACObserve(_viewModel, lastError) takeUntil:self.rac_willDeallocSignal]
+     subscribeNext:^(NSError *x) {
+         @strongify(self);
+         if (x != nil) {
+             UIAlertController *error = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                            message:x.userInfo[@"description"]
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
+             [error addAction:[UIAlertAction actionWithTitle:@"Ok"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:nil]];
+             [self presentViewController:error animated:YES completion:nil];
+         }
+     }];
 }
 
 
