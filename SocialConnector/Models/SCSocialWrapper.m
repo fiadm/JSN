@@ -153,9 +153,9 @@
                   user:(NSString *)userId
                 showIn:(UIViewController *)controller
               callback:(SCSocialWrapperCallback)callback {
+    _facebookSendMessageCallback = callback;
     FBSDKShareLinkContent *content = [FBSDKShareLinkContent new];
     content.contentURL = [NSURL URLWithString:@"http://jelin.ru"];
-    _facebookSendMessageCallback = callback;
     [FBSDKMessageDialog showWithContent:content delegate:self];
 }
 
@@ -168,6 +168,12 @@
 - (void)sharer:(id<FBSDKSharing>)sharer didFailWithError:(NSError *)error {
     if (_facebookSendMessageCallback) {
         _facebookSendMessageCallback(nil, error);
+    }
+}
+
+- (void)sharerDidCancel:(id<FBSDKSharing>)sharer {
+    if (_facebookSendMessageCallback) {
+        _facebookSendMessageCallback(nil, nil);
     }
 }
 
