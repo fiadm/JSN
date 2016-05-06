@@ -227,5 +227,21 @@
     }];
 }
 
+- (void)tw_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
+    TWTRComposer *composer = [[TWTRComposer alloc] init];
+
+    [composer setText:message];
+    [composer setURL:link];
+
+    [composer showFromViewController:ctrl completion:^(TWTRComposerResult result) {
+        if (result == TWTRComposerResultCancelled) {
+            NSLog(@"Tweet composition cancelled");
+        }
+        else {
+            NSLog(@"Sending Tweet!");
+        }
+    }];
+}
+
 
 @end

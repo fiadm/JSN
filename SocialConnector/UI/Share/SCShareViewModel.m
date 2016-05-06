@@ -31,4 +31,10 @@
             controller:ctrl];
 }
 
+- (void)tw_share:(UIViewController *)ctrl {
+    [_wrapper tw_share:@"Look at this link, this links is amazing!"
+                  link:[NSURL URLWithString:@"http://jelin.ru"]
+            controller:ctrl];
+}
+
 @end

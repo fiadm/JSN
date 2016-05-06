@@ -59,7 +59,7 @@
 
     [[[_twShare rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        //[_viewModel twitterShare:_social];
+        [_viewModel tw_share:self];
     }];
 
     [self layout];

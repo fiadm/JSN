@@ -54,5 +54,6 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 - (void)fb_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl;
 
 - (void)tw_login;
+- (void)tw_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl;
 
 @end

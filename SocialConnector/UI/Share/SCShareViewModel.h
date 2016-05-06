@@ -14,5 +14,6 @@
 - (instancetype)initWithSocialWrapper:(SCSocialWrapper *)wrapper;
 - (void)vk_share:(UIViewController *)ctrl;
 - (void)fb_share:(UIViewController *)ctrl;
+- (void)tw_share:(UIViewController *)ctrl;
 
 @end
