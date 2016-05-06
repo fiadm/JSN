@@ -27,7 +27,8 @@ typedef NS_ENUM(NSUInteger, SCListMode) {
 - (instancetype)initWithRouter:(SCRouter *)router socialWrapper:(SCSocialWrapper *)wrapper;
 
 - (void)fetchVkFriends;
-- (void)test_sendVkMessage:(VKUser *)user;
+- (void)vk_sendVkMessage:(VKUser *)user message:(NSString *)message;
+
 - (void)fetchFacebookFriends;
 
 @end

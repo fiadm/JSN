@@ -49,8 +49,8 @@
 }
 
 
-- (void)test_sendVkMessage:(VKUser *)user {
-    [_wrapper vk_sendMessage:@"test" user:user callback:^(id response, NSError *error) {
+- (void)vk_sendVkMessage:(VKUser *)user message:(NSString *)message {
+    [_wrapper vk_sendMessage:message user:user callback:^(id response, NSError *error) {
         NSLog(@"Finished send: %@, %@", response, error);
     }];
 }

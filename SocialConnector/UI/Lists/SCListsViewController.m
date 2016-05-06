@@ -126,7 +126,28 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_viewModel.mode == SCListModeVk) {
         VKUser *user = _viewModel.vkFriends[indexPath.row];
-        [_viewModel test_sendVkMessage:user];
+        UIAlertController *sendMessage = [UIAlertController alertControllerWithTitle:@"Send Message"
+                                                                             message:@""
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+        [sendMessage addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"Enter message here";
+        }];
+
+        UIAlertAction *send = [UIAlertAction actionWithTitle:@"Send"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                         NSString *msg = sendMessage.textFields.firstObject.text;
+                                                         if (msg) {
+                                                             [_viewModel vk_sendVkMessage:user
+                                                                                  message:msg];
+                                                         }
+                                                     }];
+
+        [sendMessage addAction:send];
+        [sendMessage addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:nil]];
+         [self presentViewController:sendMessage animated:YES completion:nil];
     }
 }
 

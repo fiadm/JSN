@@ -69,7 +69,6 @@
 - (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
     VKRequest *sendMessage = [VKApi requestWithMethod:@"messages.send"
                                         andParameters:@{@"user_id": user.id, @"message": message}];
-
     sendMessage.completeBlock = ^(VKResponse *resp) {
         if (callback) {
             callback(resp.parsedModel, nil);
@@ -81,7 +80,6 @@
             callback(nil, err);
         }
     };
-
     [sendMessage start];
 }
 
