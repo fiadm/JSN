@@ -89,6 +89,16 @@
     [sendMessage start];
 }
 
+- (void)vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
+    VKShareDialogController *shareDialog = [VKShareDialogController new];
+    shareDialog.text = message;
+    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:nil link:link];
+    [shareDialog setCompletionHandler:^(UIViewController *controller, VKShareDialogControllerResult result) {
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [ctrl presentViewController:shareDialog animated:YES completion:nil]; //6
+}
+
 - (void)vk_login {
     [_vk registerDelegate:self];
     [_vk setUiDelegate:_delegate];
@@ -167,6 +177,20 @@
                                           code:-1
                                       userInfo:@{@"description": @"Facebook Messenger is not installed"}]);
     }
+}
+
+- (void)fb_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
+    FBSDKShareDialog *dialog = [[FBSDKShareDialog alloc] init];
+    dialog.fromViewController = ctrl;
+    FBSDKShareLinkContent *content = [[FBSDKShareLinkContent alloc] init];
+    content.contentDescription = message;
+    content.contentURL = link;
+    dialog.shareContent = content;
+    dialog.mode = FBSDKShareDialogModeShareSheet;
+    if (![dialog canShow]) {
+        dialog.mode = FBSDKShareDialogModeWeb;
+    }
+    [dialog show];
 }
 
 - (void)sharer:(id<FBSDKSharing>)sharer didCompleteWithResults:(NSDictionary *)results {

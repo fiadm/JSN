@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F8D5BBD1CDD0D6C006B431C /* SCShareViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5BBC1CDD0D6C006B431C /* SCShareViewModel.m */; };
+		4F8D5BC01CDD0E3D006B431C /* SCShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5BBF1CDD0E3D006B431C /* SCShareViewController.m */; };
 		4FB121B21CD9BA1000FA7C15 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB121B11CD9BA1000FA7C15 /* main.m */; };
 		4FB121B51CD9BA1000FA7C15 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB121B41CD9BA1000FA7C15 /* AppDelegate.m */; };
 		4FB121BD1CD9BA1000FA7C15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FB121BC1CD9BA1000FA7C15 /* Assets.xcassets */; };
@@ -22,6 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F8D5BBB1CDD0D6C006B431C /* SCShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCShareViewModel.h; sourceTree = "<group>"; };
+		4F8D5BBC1CDD0D6C006B431C /* SCShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCShareViewModel.m; sourceTree = "<group>"; };
+		4F8D5BBE1CDD0E3D006B431C /* SCShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCShareViewController.h; sourceTree = "<group>"; };
+		4F8D5BBF1CDD0E3D006B431C /* SCShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCShareViewController.m; sourceTree = "<group>"; };
 		4FB121AD1CD9BA1000FA7C15 /* SocialConnector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SocialConnector.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB121B11CD9BA1000FA7C15 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4FB121B31CD9BA1000FA7C15 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -60,6 +66,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F8D5BBA1CDD0D59006B431C /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				4F8D5BBB1CDD0D6C006B431C /* SCShareViewModel.h */,
+				4F8D5BBC1CDD0D6C006B431C /* SCShareViewModel.m */,
+				4F8D5BBE1CDD0E3D006B431C /* SCShareViewController.h */,
+				4F8D5BBF1CDD0E3D006B431C /* SCShareViewController.m */,
+			);
+			path = Share;
+			sourceTree = "<group>";
+		};
 		4FB121A41CD9BA1000FA7C15 = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +121,7 @@
 		4FC4ABEA1CD9C37900DF71BD /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4F8D5BBA1CDD0D59006B431C /* Share */,
 				4FE1D2431CDB19B00084365E /* Lists */,
 				4FC4ABEB1CD9C37900DF71BD /* Login */,
 				4FCDDE721CDA6B1D00029517 /* SCRouter.h */,
@@ -285,7 +303,9 @@
 			files = (
 				4FCDDE741CDA6B1D00029517 /* SCRouter.m in Sources */,
 				4FCDDE711CDA5E1800029517 /* SCLoginViewController.m in Sources */,
+				4F8D5BBD1CDD0D6C006B431C /* SCShareViewModel.m in Sources */,
 				4FDFBA381CDB0AB900AE8F64 /* SCSocialWrapper.m in Sources */,
+				4F8D5BC01CDD0E3D006B431C /* SCShareViewController.m in Sources */,
 				4FC4ABEF1CD9C38700DF71BD /* SCLoginViewModel.m in Sources */,
 				4FDFBA3B1CDB0BB500AE8F64 /* SCSocialAuthResult.m in Sources */,
 				4FB121B51CD9BA1000FA7C15 /* AppDelegate.m in Sources */,
@@ -399,6 +419,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SocialConnector/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatever.SocialConnector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -414,6 +435,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SocialConnector/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.whatever.SocialConnector;
 				PRODUCT_NAME = "$(TARGET_NAME)";

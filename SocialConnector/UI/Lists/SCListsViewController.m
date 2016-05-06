@@ -42,6 +42,9 @@
             make.center.equalTo(_loadingView);
         }];
         _loadingView.hidden = YES;
+
+        self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts
+                                                                     tag:0];
     }
     return self;
 }

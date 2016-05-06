@@ -43,12 +43,16 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 - (void)vk_sendMessage:(NSString *)message
                   user:(VKUser *)user
               callback:(SCSocialWrapperCallback)callback;
+- (void)vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl;
+
 - (void)fb_login;
 - (void)fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback;
 - (void)fb_sendMessage:(NSString *)message
                   user:(NSString *)userId
                 showIn:(UIViewController *)controller
               callback:(SCSocialWrapperCallback)callback;
+- (void)fb_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl;
+
 - (void)tw_login;
 
 @end
