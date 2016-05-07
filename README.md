@@ -12,6 +12,7 @@ $ open SocialConnector.xcworkspace
 
 ### Что происходит внутри
 Основной смысл написанного располагается в папке `Models` и состоит из трёх классов:
+
 1. `SCSocialWrapper` — обёрточный класс, который упрощает работу с социальными сетями
 2. `SCSocialAuthResult` — результат авторизации в соцсети
 3. `SCSocialWrapperConfig` — конфигурация для `SCSocialWrapper`, позволяет указать Application ID для
