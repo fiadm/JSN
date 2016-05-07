@@ -24,22 +24,6 @@
     return self;
 }
 
-
-- (void)vkLogin:(SCSocialWrapper *)wrapper {
-    [wrapper vk_login];
-}
-
-
-- (void)facebookLogin:(SCSocialWrapper *)wrapper {
-    [wrapper fb_login];
-}
-
-
-- (void)twitterLogin:(SCSocialWrapper *)wrapper {
-    [wrapper tw_login];
-}
-
-
 - (void)loginFinished:(SCSocialAuthResult *)result wrapper:(SCSocialWrapper *)wrapper {
     if (result.result == SCSocialAuthResultSuccess) {
         [_router proceedToListsWithWrapper:wrapper];

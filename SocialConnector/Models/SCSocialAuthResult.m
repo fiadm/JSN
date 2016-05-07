@@ -18,4 +18,11 @@
     return self;
 }
 
+- (instancetype)initWithType:(SCSocialAuthType)type error:(NSError *)error {
+    if (self = [self initWithType:type result:SCSocialAuthResultFailure]) {
+        _error = error;
+    }
+    return self;
+}
+
 @end

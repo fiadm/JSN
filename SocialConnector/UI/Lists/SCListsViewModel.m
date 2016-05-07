@@ -73,7 +73,7 @@
 - (void)fb_sendVkMessageTo:(NSDictionary *)user
                    message:(NSString *)message
                     showIn:(UIViewController *)ctrl {
-    [_wrapper fb_sendMessage:message user:user[@"id"] showIn:ctrl callback:^(id response, NSError *error) {
+    [_wrapper fb_sendMessage:message callback:^(id response, NSError *error) {
         if (error != nil) {
             self.lastError = error;
         }

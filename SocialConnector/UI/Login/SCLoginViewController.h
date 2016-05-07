@@ -11,6 +11,7 @@
 
 @interface SCLoginViewController : UIViewController
 
-- (instancetype)initWithViewModel:(SCLoginViewModel *)viewModel;
+- (instancetype)initWithViewModel:(SCLoginViewModel *)viewModel
+                    socialWrapper:(SCSocialWrapper *)wrapper;
 
 @end

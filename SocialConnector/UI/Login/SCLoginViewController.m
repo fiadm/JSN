@@ -12,7 +12,7 @@
 #import "Masonry.h"
 #import "VKSdk.h"
 
-@interface SCLoginViewController () <SCSocialWrapperDelegate, VKSdkUIDelegate>
+@interface SCLoginViewController () <VKSdkUIDelegate>
 
 @end
 
@@ -25,14 +25,14 @@
     SCSocialWrapper *_social;
 }
 
-- (instancetype)initWithViewModel:(SCLoginViewModel *)viewModel {
+- (instancetype)initWithViewModel:(SCLoginViewModel *)viewModel socialWrapper:(SCSocialWrapper *)wrapper {
     if (self = [super init]) {
         _viewModel = viewModel;
         _viewModel.viewController = self;
         _vkLogin = [UIButton new];
         _fbLogin = [UIButton new];
         _twLogin = [UIButton new];
-        _social = [[SCSocialWrapper alloc] initWithDelegate:self];
+        _social = wrapper;
     }
     return self;
 }
@@ -55,17 +55,23 @@
 
     [[[_vkLogin rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        [_viewModel vkLogin:_social];
+        [_social vk_login:^(SCSocialAuthResult *result) {
+            [self socialWrapperLoginCompletedWithSocialResult:result];
+        } delegate:self];
     }];
 
     [[[_fbLogin rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        [_viewModel facebookLogin:_social];
+        [_social fb_login:^(SCSocialAuthResult *result) {
+            [self socialWrapperLoginCompletedWithSocialResult:result];
+        } delegate:self];
     }];
 
     [[[_twLogin rac_signalForControlEvents:UIControlEventTouchUpInside]
       takeUntil:self.rac_willDeallocSignal] subscribeNext:^(id x) {
-        [_viewModel twitterLogin:_social];
+        [_social tw_login:^(SCSocialAuthResult *result) {
+            [self socialWrapperLoginCompletedWithSocialResult:result];
+        }];
     }];
 
     [self layout];
@@ -92,7 +98,6 @@
 
 - (void)socialWrapperLoginCompletedWithSocialResult:(SCSocialAuthResult *)result {
     if (result.result == SCSocialAuthResultSuccess) {
-
         [_viewModel loginFinished:result wrapper:_social];
     } else {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Auth failed"

@@ -17,6 +17,8 @@
 #import "SCShareViewModel.h"
 #import "SCShareViewController.h"
 
+#import "SCSocialWrapper.h"
+
 @implementation SCRouter {
     UINavigationController *_navigation;
     SCSocialWrapper *_wrapper;
@@ -27,19 +29,24 @@
     if (self = [super init]) {
         _navigation = navigation;
         _tabBar = [UITabBarController new];
+        SCSocialWrapperConfig *wrapperCfg =
+        [[SCSocialWrapperConfig alloc] initWithFacebookAppId:@"273643682973780"
+                                                     vkAppId:@"5152823"
+                                                twitterAppId:@"JfzELiWaW3kJcD8XZvWnFyfGb"
+                                               twitterSecret:@"MPo6csdORo0t4V7Tg90KEUnr7k1XaktjSdvxAYPbRuYFwzjtiI"];
+        _wrapper = [[SCSocialWrapper alloc] initWithConfig:wrapperCfg];
     }
     return self;
 }
 
 - (void)showAuth {
-    NSLog(@"Show auth");
     SCLoginViewModel *vm = [[SCLoginViewModel alloc] initWithRouter:self];
-    SCLoginViewController *loginCtrl = [[SCLoginViewController alloc] initWithViewModel:vm];
+    SCLoginViewController *loginCtrl = [[SCLoginViewController alloc] initWithViewModel:vm
+                                                                          socialWrapper:_wrapper];
     [_navigation pushViewController:loginCtrl animated:NO];
 }
 
 - (void)proceedToListsWithWrapper:(id)wrapper {
-    NSLog(@"Proceed to lists");
     SCListsViewModel *vm = [[SCListsViewModel alloc] initWithRouter:self socialWrapper:wrapper];
     SCListsViewController *ctrl = [[SCListsViewController alloc] initWithViewModel:vm];
 

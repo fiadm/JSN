@@ -18,10 +18,6 @@
 
 - (instancetype)initWithRouter:(id)router;
 
-- (void)facebookLogin:(SCSocialWrapper *)wrapper;
-- (void)vkLogin:(SCSocialWrapper *)wrapper;
-- (void)twitterLogin:(SCSocialWrapper *)wrapper;
-
 - (void)loginFinished:(SCSocialAuthResult *)result wrapper:(SCSocialWrapper *)wrapper;
 
 @end

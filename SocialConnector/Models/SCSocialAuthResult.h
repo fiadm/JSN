@@ -22,8 +22,10 @@ typedef NS_ENUM(NSUInteger, SCSocialAuthType) {
 @interface SCSocialAuthResult : NSObject
 
 - (instancetype)initWithType:(SCSocialAuthType)type result:(SCSocialAuthResultEnum)result;
+- (instancetype)initWithType:(SCSocialAuthType)type error:(NSError *)error;
 
 @property (assign, nonatomic) SCSocialAuthResultEnum result;
 @property (assign, nonatomic) SCSocialAuthType type;
+@property (strong, nonatomic) NSError *error;
 
 @end

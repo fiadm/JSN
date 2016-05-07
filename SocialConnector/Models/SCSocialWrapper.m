@@ -19,25 +19,27 @@
 #import "VKUser.h"
 
 #define VK_SCOPE @[VK_PER_WALL, VK_PER_FRIENDS, VK_PER_MESSAGES]
+#define FB_SCOPE @[@"public_profile", @"user_friends"]
+
+typedef void(^AuthCallback)(void);
 
 @interface SCSocialWrapper () <FBSDKSharingDelegate>
 @end
 
 @implementation SCSocialWrapper {
-    UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *_delegate;
     VKSdk *_vk;
     FBSDKLoginManager *_fbLogin;
     SCSocialWrapperCallback _facebookSendMessageCallback;
+    SCSocialWrapperLoginCallback _vkLoginCallback;
 }
 
-- (instancetype)initWithDelegate:(UIViewController<SCSocialWrapperDelegate, VKSdkUIDelegate> *)delegate {
+- (instancetype)initWithConfig:(SCSocialWrapperConfig *)config {
     if (self = [super init]) {
-        _delegate = delegate;
-        _vk = [VKSdk initializeWithAppId:@"5152823"];
-        [FBSDKSettings setAppID:@"273643682973780"];
+        _vk = [VKSdk initializeWithAppId:config.vkAppId];
+        [FBSDKSettings setAppID:config.facebookAppId];
         _fbLogin = [[FBSDKLoginManager alloc] init];
-        [[Twitter sharedInstance] startWithConsumerKey:@"JfzELiWaW3kJcD8XZvWnFyfGb"
-                                        consumerSecret:@"MPo6csdORo0t4V7Tg90KEUnr7k1XaktjSdvxAYPbRuYFwzjtiI"];
+        [[Twitter sharedInstance] startWithConsumerKey:config.twitterAppId
+                                        consumerSecret:config.twitterConsumerSecret];
     }
     return self;
 }
@@ -51,7 +53,11 @@
         } else if (error) {
             callback(nil, error);
         } else {
-            [self vk_login];
+            [self vk_login:^(SCSocialAuthResult *result) {
+                if (error == nil) {
+                    [self vk_fetchFriends:callback];
+                }
+            } delegate:nil];
         }
     }];
 }
@@ -73,6 +79,22 @@
 }
 
 - (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
+    [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
+        if (state == VKAuthorizationAuthorized) {
+            [self _vk_sendMessage:message user:user callback:callback];
+        } else if (error) {
+            callback(nil, error);
+        } else {
+            [self vk_login:^(SCSocialAuthResult *result) {
+                if (error == nil) {
+                    [self vk_fetchFriends:callback];
+                }
+            } delegate:nil];
+        }
+    }];
+}
+
+- (void)_vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
     VKRequest *sendMessage = [VKApi requestWithMethod:@"messages.send"
                                         andParameters:@{@"user_id": user.id, @"message": message}];
     sendMessage.completeBlock = ^(VKResponse *resp) {
@@ -90,18 +112,36 @@
 }
 
 - (void)vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
+    [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
+        if (state == VKAuthorizationAuthorized) {
+            [self _vk_share:message link:link controller:ctrl];
+        } else if (error) {
+            return;
+        } else {
+            [self vk_login:^(SCSocialAuthResult *result) {
+                if (error == nil) {
+                    [self _vk_share:message link:link controller:ctrl];
+                }
+            } delegate:nil];
+        }
+    }];
+}
+
+- (void)_vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
     VKShareDialogController *shareDialog = [VKShareDialogController new];
     shareDialog.text = message;
     shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:nil link:link];
     [shareDialog setCompletionHandler:^(UIViewController *controller, VKShareDialogControllerResult result) {
         [controller dismissViewControllerAnimated:YES completion:nil];
     }];
-    [ctrl presentViewController:shareDialog animated:YES completion:nil]; //6
+    [ctrl presentViewController:shareDialog animated:YES completion:nil];
 }
 
-- (void)vk_login {
+- (void)vk_login:(SCSocialWrapperLoginCallback)callback
+        delegate:(UIViewController<VKSdkUIDelegate> *)delegate {
+    _vkLoginCallback = callback;
     [_vk registerDelegate:self];
-    [_vk setUiDelegate:_delegate];
+    [_vk setUiDelegate:delegate];
     [VKSdk authorize:VK_SCOPE];
 }
 
@@ -111,39 +151,55 @@
 
 - (void)vkSdkAuthorizationStateUpdatedWithResult:(VKAuthorizationResult *)result {
     if (result.state == VKAuthorizationAuthorized) {
-        [_delegate socialWrapperLoginCompletedWithSocialResult:
-         [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeVK result:SCSocialAuthResultSuccess]];
+        SCSocialAuthResult *res = [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeVK
+                                                                    result:SCSocialAuthResultSuccess];
+        if (_vkLoginCallback) {
+            _vkLoginCallback(res);
+        }
     }
 }
 
 
 - (void)vkSdkUserAuthorizationFailed {
-    [_delegate socialWrapperLoginCompletedWithSocialResult:
-     [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeVK
-                                       result:SCSocialAuthResultFailure]];
+    SCSocialAuthResult *res = [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeVK
+                                                                result:SCSocialAuthResultFailure];
+    if (_vkLoginCallback) {
+        _vkLoginCallback(res);
+    }
 }
 
 #pragma mark - Facebook Stuff
 
-- (void)fb_login {
+- (void)fb_login:(SCSocialWrapperLoginCallback)callback delegate:(UIViewController *)delegate {
     [_fbLogin
-     logInWithReadPermissions:@[@"public_profile", @"user_friends"]
-     fromViewController:_delegate
+     logInWithReadPermissions:FB_SCOPE
+     fromViewController:delegate
      handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
-         if (error) {
-             [_delegate socialWrapperLoginCompletedWithSocialResult:
-              [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeFacebook result:SCSocialAuthResultFailure]];
-         } else if (result.isCancelled) {
-             [_delegate socialWrapperLoginCompletedWithSocialResult:
-              [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeFacebook result:SCSocialAuthResultFailure]];
+         if (error || result.isCancelled) {
+             SCSocialAuthResult *res = [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeFacebook
+                                                                         result:SCSocialAuthResultFailure];
+             callback(res);
          } else {
-             [_delegate socialWrapperLoginCompletedWithSocialResult:
-              [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeFacebook result:SCSocialAuthResultSuccess]];
+             SCSocialAuthResult *res = [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeFacebook
+                                                                         result:SCSocialAuthResultSuccess];
+             callback(res);
          }
      }];
 }
 
 - (void)fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [self _fb_fetchFriends:callback];
+    } else {
+        [self fb_login:^(SCSocialAuthResult *result) {
+            if (result.result == SCSocialAuthResultSuccess) {
+                [self _fb_fetchFriends:callback];
+            }
+        } delegate:nil];
+    }
+}
+
+- (void)_fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
                                   initWithGraphPath:@"me/invitable_friends"
                                   parameters:@{@"fields": @"id, name, picture, username", @"limit": @(99999)}
@@ -160,9 +216,23 @@
     }];
 }
 
+
 - (void)fb_sendMessage:(NSString *)message
-                  user:(NSString *)userId
-                showIn:(UIViewController *)controller
+              callback:(SCSocialWrapperCallback)callback {
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [self _fb_sendMessage:message
+                     callback:callback];
+    } else {
+        [self fb_login:^(SCSocialAuthResult *result) {
+            if (result.result == SCSocialAuthResultSuccess) {
+                [self _fb_sendMessage:message
+                             callback:callback];
+            }
+        } delegate:nil];
+    }
+}
+
+- (void)_fb_sendMessage:(NSString *)message
               callback:(SCSocialWrapperCallback)callback {
     FBSDKMessageDialog *dialog = [[FBSDKMessageDialog alloc] init];
     if ([dialog canShow]) {
@@ -213,16 +283,16 @@
 
 #pragma mark - Twitter Stuff
 
-- (void)tw_login {
+- (void)tw_login:(SCSocialWrapperLoginCallback)callback {
     [[Twitter sharedInstance] logInWithCompletion:^(TWTRSession *session, NSError *error) {
         if (session) {
-            [_delegate socialWrapperLoginCompletedWithSocialResult:
-             [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeTwitter
-                                               result:SCSocialAuthResultSuccess]];
+            SCSocialAuthResult *res = [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeTwitter
+                                                                        result:SCSocialAuthResultSuccess];
+            callback(res);
         } else {
-            [_delegate socialWrapperLoginCompletedWithSocialResult:
-             [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeTwitter
-                                               result:SCSocialAuthResultFailure]];
+            SCSocialAuthResult *res = [[SCSocialAuthResult alloc] initWithType:SCSocialAuthTypeTwitter
+                                                                        result:SCSocialAuthResultFailure];
+            callback(res);
         }
     }];
 }
@@ -233,14 +303,7 @@
     [composer setText:message];
     [composer setURL:link];
 
-    [composer showFromViewController:ctrl completion:^(TWTRComposerResult result) {
-        if (result == TWTRComposerResultCancelled) {
-            NSLog(@"Tweet composition cancelled");
-        }
-        else {
-            NSLog(@"Sending Tweet!");
-        }
-    }];
+    [composer showFromViewController:ctrl completion:^(TWTRComposerResult result) {}];
 }
 
 
