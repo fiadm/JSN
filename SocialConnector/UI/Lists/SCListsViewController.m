@@ -81,7 +81,6 @@
         }
     }];
     RAC(_viewModel, mode) = RACObserve(_socialNetworkSelector, selectedSegmentIndex);
-    [_socialNetworkSelector setSelectedSegmentIndex:0];
     @weakify(self);
     [[RACObserve(_viewModel, lastError) takeUntil:self.rac_willDeallocSignal]
      subscribeNext:^(NSError *x) {
@@ -118,6 +117,11 @@
              [self presentViewController:error animated:YES completion:nil];
          }
      }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [_socialNetworkSelector setSelectedSegmentIndex:0];
 }
 
 
