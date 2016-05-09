@@ -40,8 +40,7 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
 /**
  Получение друзей пользователя из vk.com
- В случае, если пользователь не авторизован, сначала будет выполнен метод `vk_login:`
- 
+
  @param callback блок, который будет выполнен после получения друзей.
  */
 - (void)vk_fetchFriends:(SCSocialWrapperFriendsCallback)callback;
@@ -77,7 +76,6 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
 /**
  Получение друзей пользователя из Facebook
- В случае, если пользователь не авторизован, сначала будет выполнен метод `fb_login:`
 
  @param callback блок, который будет выполнен после получения друзей.
  */
@@ -85,8 +83,7 @@ typedef void(^SCSocialWrapperFriendsCallback)(NSArray *users, NSError *error);
 
 /**
  Отправка пользователю Facebook сообщения.
- В случае, если пользователь не авторизован, сначала будет выполнен метод `fb_login:`.
- 
+
  Если на устройстве не установлен Facebook Messenger, callback будет вызван с ошибкой.
 
  @param message Сообщение, которое будет отправлено

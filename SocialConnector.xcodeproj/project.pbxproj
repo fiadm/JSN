@@ -21,11 +21,10 @@
 		4FDFBA3B1CDB0BB500AE8F64 /* SCSocialAuthResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDFBA3A1CDB0BB500AE8F64 /* SCSocialAuthResult.m */; };
 		4FE1D2461CDB19C10084365E /* SCListsViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1D2451CDB19C10084365E /* SCListsViewModel.m */; };
 		4FE1D2491CDB19F70084365E /* SCListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FE1D2481CDB19F70084365E /* SCListsViewController.m */; };
-		BB088D92E856F1AB8DEA738A /* libPods-SocialConnector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15469E1962DCE67C7C978697 /* libPods-SocialConnector.a */; };
+		E68F5F1DB8D67B8C2C557847 /* libPods-SocialConnector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 93793C6EF08EEA55CEF733DE /* libPods-SocialConnector.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		15469E1962DCE67C7C978697 /* libPods-SocialConnector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocialConnector.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F8D5BBB1CDD0D6C006B431C /* SCShareViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCShareViewModel.h; sourceTree = "<group>"; };
 		4F8D5BBC1CDD0D6C006B431C /* SCShareViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCShareViewModel.m; sourceTree = "<group>"; };
 		4F8D5BBE1CDD0E3D006B431C /* SCShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCShareViewController.h; sourceTree = "<group>"; };
@@ -53,8 +52,9 @@
 		4FE1D2451CDB19C10084365E /* SCListsViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCListsViewModel.m; sourceTree = "<group>"; };
 		4FE1D2471CDB19F70084365E /* SCListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCListsViewController.h; sourceTree = "<group>"; };
 		4FE1D2481CDB19F70084365E /* SCListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCListsViewController.m; sourceTree = "<group>"; };
-		5B1F88B86655F64027D2E2EF /* Pods-SocialConnector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialConnector.release.xcconfig"; path = "Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector.release.xcconfig"; sourceTree = "<group>"; };
-		8C54F09B3916C298A41D0715 /* Pods-SocialConnector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialConnector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector.debug.xcconfig"; sourceTree = "<group>"; };
+		8EAE540664CCD0D8EE8C5B28 /* Pods-SocialConnector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialConnector.release.xcconfig"; path = "Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector.release.xcconfig"; sourceTree = "<group>"; };
+		93793C6EF08EEA55CEF733DE /* libPods-SocialConnector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SocialConnector.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1E7222D3A54B99A6F8A762A /* Pods-SocialConnector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SocialConnector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,13 +62,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB088D92E856F1AB8DEA738A /* libPods-SocialConnector.a in Frameworks */,
+				E68F5F1DB8D67B8C2C557847 /* libPods-SocialConnector.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4AF7B970A383097CCBB24F75 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93793C6EF08EEA55CEF733DE /* libPods-SocialConnector.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4F8D5BBA1CDD0D59006B431C /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -85,8 +93,8 @@
 			children = (
 				4FB121AF1CD9BA1000FA7C15 /* SocialConnector */,
 				4FB121AE1CD9BA1000FA7C15 /* Products */,
-				BFA9729F08F6C319DA26713A /* Pods */,
-				EEA4361409099880D45CF8E2 /* Frameworks */,
+				E91419FDA89ABEF770364394 /* Pods */,
+				4AF7B970A383097CCBB24F75 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,21 +176,13 @@
 			path = Lists;
 			sourceTree = "<group>";
 		};
-		BFA9729F08F6C319DA26713A /* Pods */ = {
+		E91419FDA89ABEF770364394 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8C54F09B3916C298A41D0715 /* Pods-SocialConnector.debug.xcconfig */,
-				5B1F88B86655F64027D2E2EF /* Pods-SocialConnector.release.xcconfig */,
+				E1E7222D3A54B99A6F8A762A /* Pods-SocialConnector.debug.xcconfig */,
+				8EAE540664CCD0D8EE8C5B28 /* Pods-SocialConnector.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		EEA4361409099880D45CF8E2 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				15469E1962DCE67C7C978697 /* libPods-SocialConnector.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,12 +192,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FB121C41CD9BA1000FA7C15 /* Build configuration list for PBXNativeTarget "SocialConnector" */;
 			buildPhases = (
-				886A8316289B382F0B41AC66 /* 📦 Check Pods Manifest.lock */,
+				83E4B2D97D65367368170C63 /* 📦 Check Pods Manifest.lock */,
 				4FB121A91CD9BA1000FA7C15 /* Sources */,
 				4FB121AA1CD9BA1000FA7C15 /* Frameworks */,
 				4FB121AB1CD9BA1000FA7C15 /* Resources */,
-				24F4B98B9224B7946EE5C625 /* 📦 Embed Pods Frameworks */,
-				614B3473F7F4ECA66DF789F2 /* 📦 Copy Pods Resources */,
+				A9DF007B6CE48C8F9531560B /* 📦 Embed Pods Frameworks */,
+				F222409ABD9111D51C5F1DA3 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -254,7 +254,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		24F4B98B9224B7946EE5C625 /* 📦 Embed Pods Frameworks */ = {
+		83E4B2D97D65367368170C63 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A9DF007B6CE48C8F9531560B /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -269,7 +284,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		614B3473F7F4ECA66DF789F2 /* 📦 Copy Pods Resources */ = {
+		F222409ABD9111D51C5F1DA3 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -282,21 +297,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SocialConnector/Pods-SocialConnector-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		886A8316289B382F0B41AC66 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -419,7 +419,7 @@
 		};
 		4FB121C51CD9BA1000FA7C15 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8C54F09B3916C298A41D0715 /* Pods-SocialConnector.debug.xcconfig */;
+			baseConfigurationReference = E1E7222D3A54B99A6F8A762A /* Pods-SocialConnector.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -435,7 +435,7 @@
 		};
 		4FB121C61CD9BA1000FA7C15 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B1F88B86655F64027D2E2EF /* Pods-SocialConnector.release.xcconfig */;
+			baseConfigurationReference = 8EAE540664CCD0D8EE8C5B28 /* Pods-SocialConnector.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

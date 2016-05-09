@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, SCListMode) {
 
 @interface SCListsViewModel : NSObject
 
+@property (strong, nonatomic) SCSocialWrapper *wrapper;
 @property (strong, nonatomic) NSArray *vkFriends;
 @property (strong, nonatomic) NSArray *facebookFriends;
 @property (strong, nonatomic) NSError *lastError;

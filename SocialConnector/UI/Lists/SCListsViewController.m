@@ -10,8 +10,9 @@
 #import "Masonry.h"
 #import "ReactiveCocoa.h"
 #import "Haneke.h"
+#import "VKSdk.h"
 
-@interface SCListsViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface SCListsViewController () <UITableViewDelegate, UITableViewDataSource, VKSdkUIDelegate>
 
 @end
 
@@ -86,12 +87,28 @@
      subscribeNext:^(NSError *x) {
          @strongify(self);
          if (x != nil) {
+             NSString *errorMsg = x.userInfo[@"message"];
              UIAlertController *error = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                            message:x.userInfo[@"description"]
+                                                                            message:errorMsg
                                                                      preferredStyle:UIAlertControllerStyleAlert];
-             [error addAction:[UIAlertAction actionWithTitle:@"Ok"
-                                                       style:UIAlertActionStyleDefault
+             [error addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                       style:UIAlertActionStyleCancel
                                                      handler:nil]];
+             if ([x.domain hasPrefix:@"com.facebook"] || [x.domain hasPrefix:@"VKSdk"]) {
+                 [error addAction:[UIAlertAction actionWithTitle:@"Login"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+                                                             if ([x.domain hasPrefix:@"com.facebook"]) {
+                                                                 [_viewModel.wrapper fb_login:^(SCSocialAuthResult *result) {
+                                                                     [_socialNetworkSelector setSelectedSegmentIndex:0];
+                                                                 } delegate:self];
+                                                             } else if ([x.domain hasPrefix:@"VKSdk"]) {
+                                                                 [_viewModel.wrapper vk_login:^(SCSocialAuthResult *result) {
+                                                                     [_socialNetworkSelector setSelectedSegmentIndex:1];
+                                                                 } delegate:self];
+                                                             }
+                                                         }]];
+             }
              [self presentViewController:error animated:YES completion:nil];
          }
      }];
@@ -168,6 +185,16 @@
         NSDictionary *user = _viewModel.facebookFriends[indexPath.row];
         [_viewModel fb_sendVkMessageTo:user message:@"test" showIn:self];
     }
+}
+
+#pragma mark - VK Stuff
+
+- (void)vkSdkShouldPresentViewController:(UIViewController *)controller {
+    [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)vkSdkNeedCaptchaEnter:(VKError *)captchaError {
+
 }
 
 @end

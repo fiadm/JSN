@@ -11,7 +11,6 @@
 
 @implementation SCListsViewModel {
     __weak SCRouter *_router;
-    SCSocialWrapper *_wrapper;
 }
 
 - (instancetype)initWithRouter:(SCRouter *)router socialWrapper:(SCSocialWrapper *)wrapper {

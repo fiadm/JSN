@@ -46,23 +46,8 @@ typedef void(^AuthCallback)(void);
 
 #pragma mark - VK Stuff
 
-- (void)vk_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
-    [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
-        if (state == VKAuthorizationAuthorized) {
-            [self _fetchVkFriends:callback];
-        } else if (error) {
-            callback(nil, error);
-        } else {
-            [self vk_login:^(SCSocialAuthResult *result) {
-                if (error == nil) {
-                    [self vk_fetchFriends:callback];
-                }
-            } delegate:nil];
-        }
-    }];
-}
 
-- (void)_fetchVkFriends:(SCSocialWrapperFriendsCallback)callback {
+- (void)vk_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
     VKRequest *req = [[VKApi friends] get:@{@"fields": @[@"photo_100"], @"order": @"name", @"name_case": @"ins"}];
     req.completeBlock = ^(VKResponse *resp) {
         if (callback) {
@@ -78,23 +63,8 @@ typedef void(^AuthCallback)(void);
     [req start];
 }
 
-- (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
-    [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
-        if (state == VKAuthorizationAuthorized) {
-            [self _vk_sendMessage:message user:user callback:callback];
-        } else if (error) {
-            callback(nil, error);
-        } else {
-            [self vk_login:^(SCSocialAuthResult *result) {
-                if (error == nil) {
-                    [self vk_fetchFriends:callback];
-                }
-            } delegate:nil];
-        }
-    }];
-}
 
-- (void)_vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
+- (void)vk_sendMessage:(NSString *)message user:(VKUser *)user callback:(SCSocialWrapperCallback)callback {
     VKRequest *sendMessage = [VKApi requestWithMethod:@"messages.send"
                                         andParameters:@{@"user_id": user.id, @"message": message}];
     sendMessage.completeBlock = ^(VKResponse *resp) {
@@ -111,23 +81,8 @@ typedef void(^AuthCallback)(void);
     [sendMessage start];
 }
 
-- (void)vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
-    [VKSdk wakeUpSession:VK_SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
-        if (state == VKAuthorizationAuthorized) {
-            [self _vk_share:message link:link controller:ctrl];
-        } else if (error) {
-            return;
-        } else {
-            [self vk_login:^(SCSocialAuthResult *result) {
-                if (error == nil) {
-                    [self _vk_share:message link:link controller:ctrl];
-                }
-            } delegate:nil];
-        }
-    }];
-}
 
-- (void)_vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
+- (void)vk_share:(NSString *)message link:(NSURL *)link controller:(UIViewController *)ctrl {
     VKShareDialogController *shareDialog = [VKShareDialogController new];
     shareDialog.text = message;
     shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:nil link:link];
@@ -188,18 +143,6 @@ typedef void(^AuthCallback)(void);
 }
 
 - (void)fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
-    if ([FBSDKAccessToken currentAccessToken]) {
-        [self _fb_fetchFriends:callback];
-    } else {
-        [self fb_login:^(SCSocialAuthResult *result) {
-            if (result.result == SCSocialAuthResultSuccess) {
-                [self _fb_fetchFriends:callback];
-            }
-        } delegate:nil];
-    }
-}
-
-- (void)_fb_fetchFriends:(SCSocialWrapperFriendsCallback)callback {
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
                                   initWithGraphPath:@"me/invitable_friends"
                                   parameters:@{@"fields": @"id, name, picture, username", @"limit": @(99999)}
@@ -219,21 +162,6 @@ typedef void(^AuthCallback)(void);
 
 - (void)fb_sendMessage:(NSString *)message
               callback:(SCSocialWrapperCallback)callback {
-    if ([FBSDKAccessToken currentAccessToken]) {
-        [self _fb_sendMessage:message
-                     callback:callback];
-    } else {
-        [self fb_login:^(SCSocialAuthResult *result) {
-            if (result.result == SCSocialAuthResultSuccess) {
-                [self _fb_sendMessage:message
-                             callback:callback];
-            }
-        } delegate:nil];
-    }
-}
-
-- (void)_fb_sendMessage:(NSString *)message
-              callback:(SCSocialWrapperCallback)callback {
     FBSDKMessageDialog *dialog = [[FBSDKMessageDialog alloc] init];
     if ([dialog canShow]) {
         _facebookSendMessageCallback = callback;
@@ -245,7 +173,7 @@ typedef void(^AuthCallback)(void);
     } else {
         callback(nil, [NSError errorWithDomain:@"facebook"
                                           code:-1
-                                      userInfo:@{@"description": @"Facebook Messenger is not installed"}]);
+                                      userInfo:@{@"message": @"Facebook Messenger is not installed"}]);
     }
 }
 
