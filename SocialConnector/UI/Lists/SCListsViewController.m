@@ -87,22 +87,28 @@
      subscribeNext:^(NSError *x) {
          @strongify(self);
          if (x != nil) {
+             BOOL facebookFailure = [x.domain hasPrefix:@"com.facebook"];
+             BOOL vkFailure = [x.domain hasPrefix:@"VKSdk"];
              NSString *errorMsg = x.userInfo[@"message"];
+
+             if (errorMsg == nil) {
+                 errorMsg = facebookFailure ? @"Facebook request failed. Try to login first" : @"Vk.com request failed. Try to login first";
+             }
              UIAlertController *error = [UIAlertController alertControllerWithTitle:@"Error"
                                                                             message:errorMsg
                                                                      preferredStyle:UIAlertControllerStyleAlert];
              [error addAction:[UIAlertAction actionWithTitle:@"Cancel"
                                                        style:UIAlertActionStyleCancel
                                                      handler:nil]];
-             if ([x.domain hasPrefix:@"com.facebook"] || [x.domain hasPrefix:@"VKSdk"]) {
+             if (facebookFailure || vkFailure) {
                  [error addAction:[UIAlertAction actionWithTitle:@"Login"
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                             if ([x.domain hasPrefix:@"com.facebook"]) {
+                                                             if (facebookFailure) {
                                                                  [_viewModel.wrapper fb_login:^(SCSocialAuthResult *result) {
                                                                      [_socialNetworkSelector setSelectedSegmentIndex:0];
                                                                  } delegate:self];
-                                                             } else if ([x.domain hasPrefix:@"VKSdk"]) {
+                                                             } else if (vkFailure) {
                                                                  [_viewModel.wrapper vk_login:^(SCSocialAuthResult *result) {
                                                                      [_socialNetworkSelector setSelectedSegmentIndex:1];
                                                                  } delegate:self];
